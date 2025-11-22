@@ -1,0 +1,27 @@
+import os
+import sys
+import numpy as np
+import pandas as pd
+
+
+"""
+defining common constant variables for training pipeline
+
+"""
+TARGET_COLUMN: str = "Result"
+PIPELINE_NAME: str = "network_security_pipeline"
+ARTIFACT_DIR: str = "Artifact"
+FILE_NAME: str = "phisingData.csv"
+
+TRAIN_FILE_NAME: str = "train.csv"
+TEST_FILE_NAME: str = "test.csv"
+
+
+"""
+Data Ingestion related constant value starting with DATA_INGESTION_VAR_*
+"""
+DATA_INGESTION_COLLECTION_NAME: str = "Phising_Collection"
+DATA_INGESTION_DATABASE_NAME: str = "Asif_Network_Security_DB"
+DATA_INGESTION_DIR_NAME: str= "data_ingestion"
+DATA_INGESTION_FEATURE_STORE_DIR: str = "feature_store"
+DATA_INGESTION_TRAIN_TEST_SPLIT_RATIO: float = 0.2
