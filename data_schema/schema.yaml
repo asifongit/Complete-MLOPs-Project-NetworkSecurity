@@ -1,7 +1,7 @@
 columns:
   - having_IP_Address: int64
   - URL_Length: int64
-  - Shortening_Service: int64
+  - Shortining_Service: int64
   - having_At_Symbol: int64
   - double_slash_redirecting: int64
   - Prefix_Suffix: int64
@@ -35,7 +35,7 @@ columns:
 numerical_columns:
   - having_IP_Address
   - URL_Length
-  - Shortening_Service
+  - Shortining_Service
   - having_At_Symbol
   - double_slash_redirecting
   - Prefix_Suffix

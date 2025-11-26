@@ -1,13 +1,13 @@
 from networksecurity.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact
 from networksecurity.entity.config_entity import DataValidationConfig
-from networksecurity.exception import NetworkSecurityException
+from networksecurity.exception.exception import NetworkSecurityException
 from networksecurity.logging.logger import logging
 from networksecurity.constant.training_pipeline import SCHEMA_FILE_PATH
 from scipy.stats import ks_2samp
 import pandas as pd
 import os
 import sys
-from networksecurity.utils.main_utils.utils import read_yaml_file
+from networksecurity.utils.main_utils.utils import read_yaml_file, write_yaml_file
 
 
 class DataValidation:
@@ -21,5 +21,115 @@ class DataValidation:
         except Exception as e:
             raise NetworkSecurityException(e, sys)
     
+    @staticmethod
+    def read_data(file_path)->pd.DataFrame:
+        try:
+            return pd.read_csv(file_path)
+        except Exception as e:
+            raise NetworkSecurityException(e, sys)
+    
+
+    def validate_number_of_column(self,dataframe:pd.DataFrame)->bool:
+        try:
+            number_of_columns=len(self._schema_config['columns'])
+            logging.info(f"Required number of columns: {number_of_columns}")
+            logging.info(f"Data frame has columns: {len(dataframe.columns)}")
+            if len(dataframe.columns)==number_of_columns:
+                return True
+            else:
+                return False
+        except Exception as e:
+            raise NetworkSecurityException(e,sys)
+
+    def validate_numerical_column(self,dataframe:pd.DataFrame)->bool:
+        try:
+            numerical_columns=self._schema_config['numerical_columns']
+            dataframe_numerical_columns=dataframe.select_dtypes(include=['int64','float64']).columns.tolist()
+            missing_numerical_columns=[]
+            for num_column in numerical_columns:
+                if num_column not in dataframe_numerical_columns:
+                    missing_numerical_columns.append(num_column)
+            
+            if len(missing_numerical_columns)>0:
+                logging.info(f"Missing numerical columns: {missing_numerical_columns}")
+                return False
+            else:
+                return True
+        except Exception as e:
+            raise NetworkSecurityException(e, sys)
+
+
+    def detect_dataset_drift(self,base_df,current_df,threshold=0.05)->bool:
+        try:
+            status=True
+            report={}
+            for column in base_df.columns:
+                d1=base_df[column]
+                d2=current_df[column]
+                is_same_dist=ks_2samp(d1,d2)
+                if threshold<=is_same_dist.pvalue:
+                    is_found=False
+                else:
+                    is_found=True
+                    status=False
+                report.update({column:{"pvalue":float(is_same_dist.pvalue),
+                                      "drift_status":is_found}})
+            drift_report_file_path=self.data_validation_config.drift_report_file_path
+
+            # creating directory
+            dir_path=os.path.dirname(drift_report_file_path)
+            os.makedirs(dir_path,exist_ok=True)
+            write_yaml_file(file_path=drift_report_file_path, data=report)
+
+        except Exception as es:
+            raise NetworkSecurityException(es, sys)
+
+
+    def initiate_data_validation(self)->DataValidationArtifact:
+        try:
+            train_file_path=self.data_ingestion_artifact.train_file_path
+            test_file_path=self.data_ingestion_artifact.test_file_path
+
+            ## reading data from train and test file
+            train_dataframe=DataValidation.read_data(train_file_path)
+            test_dataframe=DataValidation.read_data(test_file_path)
+
+            ## validate number of columns
+
+            status=self.validate_number_of_column(dataframe=train_dataframe)
+            if not status:
+                raise Exception("Number of columns are not matching in train data")
+            status=self.validate_number_of_column(dataframe=test_dataframe)
+            if not status:
+                raise Exception("Number of columns are not matching in test data")
+
+            ## validate numerical columns
+            status=self.validate_numerical_column(dataframe=train_dataframe)
+            if not status:
+                raise Exception("Numerical columns are not matching in train data")
+            status=self.validate_numerical_column(dataframe=test_dataframe)
+            if not status:
+                raise Exception("Numerical columns are not matching in test data")
+
+            ## lets check data drift
+
+            self.detect_dataset_drift(base_df=train_dataframe,current_df=test_dataframe)
+            dir_path=os.path.dirname(self.data_validation_config.valid_train_file_path)
+            os.makedirs(dir_path,exist_ok=True)
+
+            train_dataframe.to_csv(self.data_validation_config.valid_train_file_path,index=False,header=True)
+            test_dataframe.to_csv(self.data_validation_config.valid_test_file_path,index=False,header=True)
+
+            data_validation_artifact=DataValidationArtifact(
+                validation_status=True,
+                validation_train_file_path=self.data_ingestion_artifact.train_file_path,
+                validation_test_file_path=self.data_ingestion_artifact.test_file_path,
+                invalid_train_file_path=None,
+                invalid_test_file_path=None,
+                drift_report_file_path=self.data_validation_config.drift_report_file_path
+            )
+            return data_validation_artifact
+        except Exception as e:
+            raise NetworkSecurityException(e, sys)
 
         
