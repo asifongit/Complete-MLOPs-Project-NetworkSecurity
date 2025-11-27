@@ -1,5 +1,0 @@
-[2025-11-26 21:55:21,748] INFO - Exporting collection data as dataframe
-[2025-11-26 21:55:27,665] INFO - Data ingestion completed
-[2025-11-26 21:55:27,671] INFO - Starting data validation
-[2025-11-26 21:55:27,765] INFO - Required number of columns: 2
-[2025-11-26 21:55:27,765] INFO - Data frame has columns: 31

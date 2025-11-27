@@ -1,0 +1,14 @@
+[2025-11-27 16:49:52,553] INFO - Exporting collection data as dataframe
+[2025-11-27 16:49:55,983] INFO - Data ingestion completed
+[2025-11-27 16:49:55,983] INFO - Starting data validation
+[2025-11-27 16:49:56,067] INFO - Required number of columns: 31
+[2025-11-27 16:49:56,067] INFO - Data frame has columns: 31
+[2025-11-27 16:49:56,067] INFO - Required number of columns: 31
+[2025-11-27 16:49:56,067] INFO - Data frame has columns: 31
+[2025-11-27 16:49:56,301] INFO - Data validation completed
+[2025-11-27 16:49:56,301] INFO - Starting data transformation
+[2025-11-27 16:49:56,301] INFO - Data Transformation initiated
+[2025-11-27 16:49:56,301] INFO - Starting data transformation
+[2025-11-27 16:49:56,362] INFO - Entered get_data_transformer_object method of Data_Transformation class
+[2025-11-27 16:49:56,362] INFO - Initialized KNN Imputer with params: {'missing_values': nan, 'n_neighbors': 3, 'weights': 'uniform'}
+[2025-11-27 16:49:56,384] INFO - Data transformation completed

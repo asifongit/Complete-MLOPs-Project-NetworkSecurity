@@ -44,6 +44,8 @@ DATA_VALIDATION_INVALID_DIR: str = 'invalid'
 DATA_VALIDATION_DRIFT_REPORT_DIR: str = 'drift_report'
 DATA_VALIDATION_DRIFT_FILE_NAME: str = 'report.yaml'
 
+PREPROCESSING_OBJECT_FILE_NAME= "preprocessing.pkl"
+
 """
 Data Transformation related constant value
 
@@ -55,6 +57,6 @@ DATA_TRANSFORMATION_OBJECT_DIR: str = 'transformed_object'
 ## knn imputer relateds
 DATA_TRANSFORMATION_IMPUTER_PARAMS: dict ={
     'missing_values': np.nan,
-    'neighbors': 3,
+    'n_neighbors': 3,
     'weights': 'uniform',
 }
