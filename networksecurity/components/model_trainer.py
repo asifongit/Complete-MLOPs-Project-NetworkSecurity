@@ -7,8 +7,18 @@ from networksecurity.entity.artifact_entity import DataTransformationArtifact,Mo
 from networksecurity.entity.config_entity import ModelTrainerConfig
 
 from networksecurity.utils.ml_utils.model.estimator import NetworkModel
-from networksecurity.utils.main_utils.utils import save_object,load_object,load_numpy_array_data
+from networksecurity.utils.main_utils.utils import save_object,load_object,load_numpy_array_data,evaluate_models
 from networksecurity.utils.ml_utils.metric.classification_metric import get_classification_score
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import r2_score
+from sklearn.ensemble import (
+    AdaBoostClassifier,
+    GradientBoostingClassifier,
+    RandomForestClassifier
+)
+
 
 class ModelTrainer:
     def __init__(self,model_trainer_config:ModelTrainerConfig,
@@ -19,9 +29,75 @@ class ModelTrainer:
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
-    def train_model(self,X_train,y_train):
+    def train_model(self,X_train,y_train,x_test,y_test):
+
         try:
-            pass
+            models={
+                "LogisticRegression":LogisticRegression(verbose=1),
+                "KNeighborsClassifier":KNeighborsClassifier(),
+                "RandomForestClassifier":RandomForestClassifier(verbose=1),
+                "GradientBoostingClassifier":GradientBoostingClassifier(verbose=1),
+                "AdaBoostClassifier":AdaBoostClassifier()
+            }
+
+            params={
+                'RandomForestClassifier':{
+                    'n_estimators':[8,16,32,64,128,256],
+                    
+                },
+                'GradientBoostingClassifier':{
+                    'learning_rate':[.1,.01,.05,.001],
+                    'subsample':[0.6,0.7,0.75,0.8,0.85,0.9],
+                    'n_estimators':[8,16,32,64,128,256]
+                },
+                'AdaBoostClassifier':{
+                    'learning_rate':[.1,.01,.05,.001],
+                    'n_estimators':[8,16,32,64,128,256]
+                },
+                "LogisticRegression": {},
+                "KNeighborsClassifier": {}
+
+            }
+            model_report:dict=evaluate_models(X_train=X_train,
+                                              y_train=y_train,
+                                              X_test=x_test,
+                                              y_test=y_test,
+                                              models=models,
+                                              param=params)
+            #getting best model score from dict
+            best_model_score=max(sorted(model_report.values()))
+            #getting best model name from dict
+            best_model_name=list(model_report.keys())[
+                list(model_report.values()).index(best_model_score)
+            ]
+            best_model=models[best_model_name]
+            y_train_pred=best_model.predict(X_train)
+            classification_train_metrics=get_classification_score(y_true=y_train,y_pred=y_train_pred)
+
+            ## track the mlflow
+
+            y_test_pred=best_model.predict(x_test)
+            classification_test_metrics=get_classification_score(y_true=y_test,y_pred=y_test_pred)
+
+            preprocessor=load_object(
+                file_path=self.data_transformation_artifact.transformed_object_file_path)
+            model_dir_path=os.path.dirname(self.model_trainer_config.trained_model_file_path)
+            os.makedirs(model_dir_path,exist_ok=True)
+
+            network_model=NetworkModel(preprocessor=preprocessor,model=best_model)
+            save_object(
+                file_path=self.model_trainer_config.trained_model_file_path,    
+                obj=network_model
+            )
+            ##Model Trainer Artifact
+            model_trainer_artifact=ModelTrainerArtifact(trained_model_file_path=self.model_trainer_config.trained_model_file_path,
+                                 train_metrics_artifact=classification_train_metrics,
+                                 test_metrics_artifact=classification_test_metrics
+                                 )
+            logging.info(f"Model Trainer Artifact: {model_trainer_artifact}")
+            return model_trainer_artifact
+
+              
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
@@ -41,7 +117,8 @@ class ModelTrainer:
                 test_arr[:,:-1],
                 test_arr[:,-1]
             )
-            model=self.train_model(x_train,y_train)
+            model_trainer_artifact = self.train_model(x_train,y_train,x_test,y_test)
+            return model_trainer_artifact
         
         except Exception as e:
             raise NetworkSecurityException(e,sys)
