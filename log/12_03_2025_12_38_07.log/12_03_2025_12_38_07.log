@@ -1,0 +1,23 @@
+[2025-12-03 12:38:29,179] INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-12-03 12:38:29,179] INFO - Accessing as asifongit
+[2025-12-03 12:38:30,383] INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/asifongit/Complete-MLOPs-Project-NetworkSecurity "HTTP/1.1 200 OK"
+[2025-12-03 12:38:31,553] INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-12-03 12:38:31,555] INFO - Initialized MLflow to track repo "asifongit/Complete-MLOPs-Project-NetworkSecurity"
+[2025-12-03 12:38:31,555] INFO - Repository asifongit/Complete-MLOPs-Project-NetworkSecurity initialized!
+[2025-12-03 12:38:31,555] INFO - Exporting collection data as dataframe
+[2025-12-03 12:38:35,937] INFO - Data ingestion completed
+[2025-12-03 12:38:35,954] INFO - Starting data validation
+[2025-12-03 12:38:36,022] INFO - Required number of columns: 31
+[2025-12-03 12:38:36,022] INFO - Data frame has columns: 31
+[2025-12-03 12:38:36,022] INFO - Required number of columns: 31
+[2025-12-03 12:38:36,022] INFO - Data frame has columns: 31
+[2025-12-03 12:38:36,271] INFO - Data validation completed
+[2025-12-03 12:38:36,271] INFO - Starting data transformation
+[2025-12-03 12:38:36,271] INFO - Data Transformation initiated
+[2025-12-03 12:38:36,271] INFO - Starting data transformation
+[2025-12-03 12:38:36,325] INFO - Entered get_data_transformer_object method of Data_Transformation class
+[2025-12-03 12:38:36,325] INFO - Initialized KNN Imputer with params: {'missing_values': nan, 'n_neighbors': 3, 'weights': 'uniform'}
+[2025-12-03 12:38:36,346] INFO - Data transformation completed
+[2025-12-03 12:38:36,346] INFO - Starting model trainer component
+[2025-12-03 12:45:51,029] INFO - Model Trainer Artifact: ModelTrainerArtifact(trained_model_file_path='Artifact\\12_03_2025_12_38_31\\model_trainer\\trained_model\\model.pkl', train_metrics_artifact=ClassificationMetricArtifact(f1_score=0.9911898734177215, precision_score=0.9897866316108808, recall_score=0.9925970996856303), test_metrics_artifact=ClassificationMetricArtifact(f1_score=0.9857781389678992, precision_score=0.9825840421223168, recall_score=0.9889930697105584))
+[2025-12-03 12:45:51,031] INFO - Model trainer component completed
