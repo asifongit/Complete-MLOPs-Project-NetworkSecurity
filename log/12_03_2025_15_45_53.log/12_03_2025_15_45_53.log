@@ -1,0 +1,15 @@
+[2025-12-03 15:45:58,020] INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-12-03 15:45:58,020] INFO - Accessing as asifongit
+[2025-12-03 15:45:59,253] INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/asifongit/Complete-MLOPs-Project-NetworkSecurity "HTTP/1.1 200 OK"
+[2025-12-03 15:46:00,387] INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-12-03 15:46:00,387] INFO - Initialized MLflow to track repo "asifongit/Complete-MLOPs-Project-NetworkSecurity"
+[2025-12-03 15:46:00,387] INFO - Repository asifongit/Complete-MLOPs-Project-NetworkSecurity initialized!
+[2025-12-03 15:47:22,026] INFO - Starting data ingestion
+[2025-12-03 15:47:26,682] INFO - Data ingestion completed
+[2025-12-03 15:47:26,704] INFO - Starting data validation
+[2025-12-03 15:47:26,781] INFO - Required number of columns: 31
+[2025-12-03 15:47:26,781] INFO - Data frame has columns: 31
+[2025-12-03 15:47:26,781] INFO - Required number of columns: 31
+[2025-12-03 15:47:26,781] INFO - Data frame has columns: 31
+[2025-12-03 15:47:26,996] INFO - Data validation completed
+[2025-12-03 15:47:26,996] INFO - Starting data transformation

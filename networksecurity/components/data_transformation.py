@@ -49,7 +49,7 @@ class DataTransformation:
             raise NetworkSecurityException(e,sys)
     
     
-    def initiate_data_tranformation(self)->DataTransformationArtifact:
+    def initiate_data_transformation(self)->DataTransformationArtifact:
         logging.info("Data Transformation initiated")
         try:
             logging.info("Starting data transformation")
