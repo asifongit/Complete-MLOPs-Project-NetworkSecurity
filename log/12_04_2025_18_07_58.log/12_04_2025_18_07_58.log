@@ -1,0 +1,6 @@
+[2025-12-04 18:08:01,405] INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-12-04 18:08:01,405] INFO - Accessing as asifongit
+[2025-12-04 18:08:02,589] INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/asifongit/Complete-MLOPs-Project-NetworkSecurity "HTTP/1.1 200 OK"
+[2025-12-04 18:08:03,733] INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-12-04 18:08:03,735] INFO - Initialized MLflow to track repo "asifongit/Complete-MLOPs-Project-NetworkSecurity"
+[2025-12-04 18:08:03,736] INFO - Repository asifongit/Complete-MLOPs-Project-NetworkSecurity initialized!
