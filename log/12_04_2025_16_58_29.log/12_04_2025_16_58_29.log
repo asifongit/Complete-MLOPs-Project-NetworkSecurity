@@ -1,0 +1,11 @@
+[2025-12-04 16:58:34,421] INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-12-04 16:58:34,425] INFO - Accessing as asifongit
+[2025-12-04 16:58:35,638] INFO - HTTP Request: GET https://dagshub.com/api/v1/repos/asifongit/Complete-MLOPs-Project-NetworkSecurity "HTTP/1.1 200 OK"
+[2025-12-04 16:58:36,865] INFO - HTTP Request: GET https://dagshub.com/api/v1/user "HTTP/1.1 200 OK"
+[2025-12-04 16:58:36,867] INFO - Initialized MLflow to track repo "asifongit/Complete-MLOPs-Project-NetworkSecurity"
+[2025-12-04 16:58:36,867] INFO - Repository asifongit/Complete-MLOPs-Project-NetworkSecurity initialized!
+[2025-12-04 16:58:38,222] ERROR - Form data requires "python-multipart" to be installed. 
+You can install "python-multipart" with: 
+
+pip install python-multipart
+
